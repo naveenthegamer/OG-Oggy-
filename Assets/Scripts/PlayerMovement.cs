@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private bool canMove;
     //[SerializeField] float speed;
     [SerializeField] float test;
+    private bool isFacingRight = true; 
 
     [Header("Acceleration")]
     //[SerializeField] float MaxSpeed;
@@ -36,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jump Settings")]
     [SerializeField] float jumpForce;// 10f;
     [SerializeField] float chargeForceIncrement;//5f; // extra force per charge level\
-    [SerializeField] float chargeInterval = 2f;
+    [SerializeField] float chargeInterval;// = 2f;
     [SerializeField] int maxChargeLevel;// = 3;        // max time to reach full charge
     public int chargeLevel = 0;
     private bool canChargeJump;
@@ -78,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
         Gravity();
         isGrounded();
         FlagChecks();
-        
+        flip();
 
     }
 
@@ -251,6 +252,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void flip()
+    {
+        if (isFacingRight && HorizontalMovement < 0 || !isFacingRight && HorizontalMovement > 0)
+        {
+            isFacingRight = !isFacingRight;
+            Vector2 ls = transform.localScale;
+            ls.x *= -1f;
+            transform.localScale = ls;
+        }
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = grounded ? Color.green : Color.red;
@@ -300,7 +311,27 @@ public class PlayerMovement : MonoBehaviour
         moveInput = context.ReadValue<Vector2>();
     }
 
-    
+    public void toggleMask(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            // Get the current tag
+            string currentTag = gameObject.tag;
+
+            // Toggle between "Player" and "Robot"
+            if (currentTag == "Player")
+            {
+                gameObject.tag = "Robot";
+            }
+            else if (currentTag == "Robot")
+            {
+                gameObject.tag = "Player";
+            }
+        }
+    }
+
+
+
     //coyote time
     //jump input buffering
     //current vector
