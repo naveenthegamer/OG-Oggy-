@@ -6002,7 +6002,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 0
+      m_TileSpriteIndex: 10
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -6012,7 +6012,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 1
-      m_TileSpriteIndex: 1
+      m_TileSpriteIndex: 5
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -6052,7 +6052,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 5
-      m_TileSpriteIndex: 5
+      m_TileSpriteIndex: 51
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -6102,7 +6102,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 10
-      m_TileSpriteIndex: 10
+      m_TileSpriteIndex: 12
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -6122,7 +6122,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 12
-      m_TileSpriteIndex: 12
+      m_TileSpriteIndex: 50
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -6600,11 +6600,15 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 7d68be4faa5630e48a463298db0000c5, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 7100ac7066698954e993dc76670976f3, type: 2}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileSpriteArray:
-  - m_RefCount: 1
-    m_Data: {fileID: 685701699, guid: 5ee92c232c45f434bad5a3862a0071b0, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: -1492797918, guid: 5ee92c232c45f434bad5a3862a0071b0, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 2088683290, guid: 5ee92c232c45f434bad5a3862a0071b0, type: 3}
   - m_RefCount: 1
@@ -6612,7 +6616,7 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: 1014890631, guid: 5ee92c232c45f434bad5a3862a0071b0, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: -1463116040, guid: 5ee92c232c45f434bad5a3862a0071b0, type: 3}
+    m_Data: {fileID: -1492797918, guid: 5ee92c232c45f434bad5a3862a0071b0, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 478293704, guid: 5ee92c232c45f434bad5a3862a0071b0, type: 3}
   - m_RefCount: 1
@@ -6622,11 +6626,11 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: -374174962, guid: 5ee92c232c45f434bad5a3862a0071b0, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: -585591321, guid: 5ee92c232c45f434bad5a3862a0071b0, type: 3}
+    m_Data: {fileID: 685701699, guid: 5ee92c232c45f434bad5a3862a0071b0, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: -45360348, guid: 5ee92c232c45f434bad5a3862a0071b0, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: 458605833, guid: 5ee92c232c45f434bad5a3862a0071b0, type: 3}
+    m_Data: {fileID: -585591321, guid: 5ee92c232c45f434bad5a3862a0071b0, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 437315287, guid: 5ee92c232c45f434bad5a3862a0071b0, type: 3}
   - m_RefCount: 1
@@ -6701,6 +6705,10 @@ Tilemap:
     m_Data: {fileID: -1315452441, guid: 5ee92c232c45f434bad5a3862a0071b0, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 1231882162, guid: 5ee92c232c45f434bad5a3862a0071b0, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 458605833, guid: 5ee92c232c45f434bad5a3862a0071b0, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: -1463116040, guid: 5ee92c232c45f434bad5a3862a0071b0, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 50
     m_Data:
@@ -6723,11 +6731,13 @@ Tilemap:
   m_TileColorArray:
   - m_RefCount: 50
     m_Data: {r: 1, g: 1, b: 1, a: 1}
+  - m_RefCount: 0
+    m_Data: {r: 8.035382e+16, g: 8.035382e+16, b: 8.035382e+16, a: 8.035382e+16}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: 0, y: -10, z: 0}
-  m_Size: {x: 10, y: 10, z: 1}
+  m_Origin: {x: -13, y: -10, z: 0}
+  m_Size: {x: 23, y: 13, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -19099,7 +19109,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
