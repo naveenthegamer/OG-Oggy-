@@ -3,13 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags:
-  - Scan
+  tags: []
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Ground
+  - ground
   - Water
   - UI
   - 
@@ -39,20 +38,8 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: BackGround
-    uniqueID: 3028437571
-    locked: 0
-  - name: mid
-    uniqueID: 3355122327
-    locked: 0
-  - name: Ground
-    uniqueID: 145746705
-    locked: 0
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: WatchLight
-    uniqueID: 239477847
     locked: 0
   m_RenderingLayers:
   - Default
