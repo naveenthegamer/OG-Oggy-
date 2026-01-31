@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Scan
   layers:
   - Default
   - TransparentFX
@@ -41,7 +42,7 @@ TagManager:
   - name: BackGround
     uniqueID: 3028437571
     locked: 0
-  - name: Props
+  - name: mid
     uniqueID: 3355122327
     locked: 0
   - name: Ground
