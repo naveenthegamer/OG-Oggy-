@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Scan
+  - zone
+  - collectible
+  - Bottom Game Over
   layers:
   - Default
   - TransparentFX
@@ -38,6 +42,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: bg
+    uniqueID: 1742625093
+    locked: 0
+  - name: mid
+    uniqueID: 159971607
+    locked: 0
+  - name: prop
+    uniqueID: 785990157
+    locked: 0
+  - name: ground
+    uniqueID: 3900083379
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

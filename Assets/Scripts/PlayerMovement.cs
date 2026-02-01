@@ -1,6 +1,10 @@
-﻿using UnityEngine;
+﻿using FirstGearGames.SmoothCameraShaker;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Windows;
+using UnityEngine.Rendering.UI;
+//using UnityEngine.Windows;
+
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -63,12 +67,29 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float airControlMultiplier;
     private float moveSpeed;
 
+    [Header("Shaker")]
+    public ShakeData cameraShake;
+
+    [Header ("HP")]
+    public int maxHealthPoints = 100;
+    public int collectibleValue = 20;
+    public int currentHealthPoints;
+    public int DmgOverTime = 10;
+    public int dmgIntervaltime = 3;
+    bool check;
+    bool maskCheck;
+
+
+
 
 
 
     void Start()
     {
         currentMaxSpeed = baseMaxSpeed;
+        currentHealthPoints = maxHealthPoints;
+        check = false;
+        maskCheck = false; // Implies that the life-support mask isn't worn.
     }
 
 
@@ -78,8 +99,49 @@ public class PlayerMovement : MonoBehaviour
         Gravity();
         isGrounded();
         FlagChecks();
+        maskChange();
+        if (check == false && maskCheck == false)
+        {
+            check = true;
+           StartCoroutine (DOT(DmgOverTime, dmgIntervaltime));
+            Debug.Log("check false");
+        }
         
 
+    }
+
+    private void OnTriggerEnter2D(UnityEngine.Collider2D collision)
+    {
+        if(collision.gameObject.CompareTag("zone"))
+        {
+            CameraShakerHandler.Shake(cameraShake);
+        }
+
+        if (collision.gameObject.CompareTag("collectible"))
+        {
+            currentHealthPoints += collectibleValue;
+
+            Debug.Log("collected canister. HP: " + currentHealthPoints);
+        }
+    }
+
+    IEnumerator DOT(int dot, int interval)
+    {
+        Debug.Log("currentHP: " + currentHealthPoints);
+        currentHealthPoints -= dot;
+        yield return new WaitForSeconds(interval);
+        check = false;
+
+        
+    }
+
+    private void maskChange()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            maskCheck = !maskCheck;
+            Debug.Log("mask Switch");
+        }
     }
 
     private void FixedUpdate()  
