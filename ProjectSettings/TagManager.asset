@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Robot
   - collectible
+  - Scan
+  - zone
   layers:
   - Default
   - TransparentFX
@@ -13,7 +15,7 @@ TagManager:
   - ground
   - Water
   - UI
-  - 
+  - ignore
   - 
   - 
   - 
@@ -40,6 +42,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: bg
+    uniqueID: 296791115
+    locked: 0
+  - name: mid
+    uniqueID: 1219319733
+    locked: 0
+  - name: ground
+    uniqueID: 2322190349
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

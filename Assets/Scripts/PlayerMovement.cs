@@ -1,4 +1,4 @@
-﻿using Unity.Mathematics;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -42,7 +42,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float chargeInterval;// = 2f;
     [SerializeField] int maxChargeLevel;// = 3;        // max time to reach full charge
     public int chargeLevel = 0;
-    private bool canChargeJump;
     Vector2 jumpDir;
 
     private float chargeTimer = 0f;
@@ -125,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
         {
             currentSpeedX = 0;
             canMove = false;
-            canChargeJump = true;
+            
 
         }
         if (!isCharging)
@@ -159,6 +158,7 @@ public class PlayerMovement : MonoBehaviour
             guyColor.color = Color.red;
         }
     }
+
     public void PhysicsMove(float horDire)
     {
         // Track direction (-1, 0, 1)
@@ -223,6 +223,7 @@ public class PlayerMovement : MonoBehaviour
         {
             
             grounded = true;
+            
         }
 
         else
@@ -282,18 +283,37 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = grounded ? Color.green : Color.red;
+    public void DamageOverTime()
+    {
+        oxygen -= drainSpeed * Time.deltaTime;
 
-    //    // Draw the BoxCast area
-    //    Vector3 castOrigin = transform.position;
-    //    Vector3 castDirection = -transform.up * groundCheckSize;
+        if (oxygen < 0)
+        {
+            PlayerLose(true);
+        }
+    }
 
-    //    // Draw the box at the cast origin
-    //    Gizmos.DrawWireCube(castOrigin + castDirection, boxSize);
+    public void PlayerLose(bool lost)
+    {
+        if (lost)
+        {
+            Debug.Log("Game Over: Player Loses");
+        }
 
-    //}
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = grounded ? Color.green : Color.red;
+
+        // Draw the BoxCast area
+        Vector3 castOrigin = transform.position;
+        Vector3 castDirection = -transform.up * groundCheckSize;
+
+        // Draw the box at the cast origin
+        Gizmos.DrawWireCube(castOrigin + castDirection, boxSize);
+
+    }
 
 
 
@@ -361,24 +381,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void DamageOverTime()
-    {
-        oxygen -= drainSpeed * Time.deltaTime;
+   
 
-        if (oxygen < 0)
-        {
-            PlayerLose(true);
-        }
-    }
-
-    public void PlayerLose(bool lost)
-    {
-        if (lost)
-        {
-            Debug.Log("Game Over: Player Loses");
-        }
-
-    }
+    
 
 
     //coyote time

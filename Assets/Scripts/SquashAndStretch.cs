@@ -3,7 +3,7 @@ using UnityEngine;
 public class SquashAndStretch : MonoBehaviour
 {
     public Transform Sprite;
-    public float Stretch = 0.1f;
+    public float Stretch;//0.1f;
     [SerializeField] private Transform squashParent;
 
     private Rigidbody2D _rigidbody;
