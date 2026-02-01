@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class EnemyScan : MonoBehaviour
 {
-    [SerializeField] float detectionTime = 1f; // seconds required to catch
+    [SerializeField] float detectionTime; // seconds required to catch
     private float timer = 0f;
     private bool playerDetected = false;
+    public PlayerMovement player;
+    float t;
+
+    [Header("Visual Feedback")]
+    [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] Color startColor;// = Color.white;
+    [SerializeField] Color caughtColor;// = Color.red;
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (playerDetected)
@@ -24,19 +24,23 @@ public class EnemyScan : MonoBehaviour
             if (timer >= detectionTime)
             {
                 Debug.Log("Player has been caught!");
-                // Optionally reset timer or trigger catch logic here
+                player.PlayerLose(true);
             }
         }
         else
         {
-            // Lerp timer back down when player leaves
+           
             timer = Mathf.Lerp(timer, 0f, Time.deltaTime * 5f);
             // multiplier controls how quickly it resets
         }
+        // Update sprite color based on timer progress
+        t = Mathf.Clamp01(timer / detectionTime);
+        spriteRenderer.color = Color.Lerp(startColor, caughtColor, t);
+
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {

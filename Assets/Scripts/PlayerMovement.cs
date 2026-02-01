@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using Unity.Mathematics;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using UnityEngine.Windows;
 
 public class PlayerMovement : MonoBehaviour
@@ -64,12 +66,25 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float airControlMultiplier;
     private float moveSpeed;
 
+    [Header("Oxygen Levels")]
+    public float oxygen;
+    private float minOxygen = 0;
+    public float maxOxygen;
+    public float NormalDrainSpeed;
+    public float MaskOffDrainSpeed;
+    public float drainSpeed;
+    [SerializeField] Slider OxygenMeter;
+    public float collectibleOxygen;
+
+
 
 
 
     void Start()
     {
         currentMaxSpeed = baseMaxSpeed;
+        drainSpeed = NormalDrainSpeed;
+        oxygen = maxOxygen;
     }
 
 
@@ -80,6 +95,8 @@ public class PlayerMovement : MonoBehaviour
         isGrounded();
         FlagChecks();
         flip();
+        DamageOverTime();
+        OxygenMeter.value = oxygen;
 
     }
 
@@ -98,6 +115,8 @@ public class PlayerMovement : MonoBehaviour
             newLevel = Mathf.FloorToInt(chargeTimer / chargeInterval);
             chargeLevel = Mathf.Clamp(newLevel, 0, maxChargeLevel);
         }
+        oxygen = Mathf.Min(oxygen, maxOxygen);
+        oxygen =Mathf.Max(oxygen, minOxygen);
     }
 
     private void FlagChecks()
@@ -218,7 +237,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // Normal jump
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            Debug.Log("Normal jump performed");
+            //Debug.Log("Normal jump performed");
         }
         else if (chargeLevel > 0 &&
                  (Vector2.Dot(moveInput.normalized, Vector2.right) > 0.9f ||
@@ -232,23 +251,23 @@ public class PlayerMovement : MonoBehaviour
             if (Vector2.Dot(lhs: moveInput.normalized, Vector2.right) > 0.9f)
             {
                 jumpDir = new Vector2(test, 1f);
-                Debug.Log(message: "right");
+                //Debug.Log(message: "right");
             }
             else if (Vector2.Dot(moveInput.normalized, Vector2.left) > 0.9f)
             {
                 jumpDir = new Vector2(-test, 1f); // left
-                Debug.Log("right");
+                //Debug.Log("right");
             }
 
             rb.AddForce(jumpDir * totalForce, ForceMode2D.Impulse);
-            Debug.Log($"Horizontal charged jump performed at level {chargeLevel}, force {totalForce}, direction {jumpDir}");
+            //Debug.Log($"Horizontal charged jump performed at level {chargeLevel}, force {totalForce}, direction {jumpDir}");
         }
         else if (chargeLevel > 0)
         {
             // Vertical charged jump
             totalForce = jumpForce + (chargeLevel * chargeForceIncrement);
             rb.AddForce(Vector2.up * totalForce, ForceMode2D.Impulse);
-            Debug.Log($"Charged jump performed at level {chargeLevel}, force {totalForce}");
+            //Debug.Log($"Charged jump performed at level {chargeLevel}, force {totalForce}");
         }
     }
 
@@ -262,18 +281,19 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = ls;
         }
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = grounded ? Color.green : Color.red;
 
-        // Draw the BoxCast area
-        Vector3 castOrigin = transform.position;
-        Vector3 castDirection = -transform.up * groundCheckSize;
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = grounded ? Color.green : Color.red;
 
-        // Draw the box at the cast origin
-        Gizmos.DrawWireCube(castOrigin + castDirection, boxSize);
+    //    // Draw the BoxCast area
+    //    Vector3 castOrigin = transform.position;
+    //    Vector3 castDirection = -transform.up * groundCheckSize;
 
-    }
+    //    // Draw the box at the cast origin
+    //    Gizmos.DrawWireCube(castOrigin + castDirection, boxSize);
+
+    //}
 
 
 
@@ -322,20 +342,48 @@ public class PlayerMovement : MonoBehaviour
             if (currentTag == "Player")
             {
                 gameObject.tag = "Robot";
+                drainSpeed = MaskOffDrainSpeed;
             }
             else if (currentTag == "Robot")
             {
                 gameObject.tag = "Player";
+                drainSpeed = NormalDrainSpeed;
             }
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("collectible"))
+        {
+            oxygen += collectibleOxygen;
+            Destroy(collision.gameObject);
+        }
+    }
+
+    public void DamageOverTime()
+    {
+        oxygen -= drainSpeed * Time.deltaTime;
+
+        if (oxygen < 0)
+        {
+            PlayerLose(true);
+        }
+    }
+
+    public void PlayerLose(bool lost)
+    {
+        if (lost)
+        {
+            Debug.Log("Game Over: Player Loses");
+        }
+
+    }
 
 
     //coyote time
     //jump input buffering
-    //current vector
-    //rb.velocity to 0 when shooting in opposite direction of movement
-    //crouch
+   
+  
 
 }
