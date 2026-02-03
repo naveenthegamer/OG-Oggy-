@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject colorchange;
     SpriteRenderer guyColor;
+    [SerializeField] Sprite[] SpriteList;
+    private Sprite CurrentSprite;
 
     [Header("Movement")]
     [SerializeField] Rigidbody2D rb;
@@ -84,6 +86,7 @@ public class PlayerMovement : MonoBehaviour
         currentMaxSpeed = baseMaxSpeed;
         drainSpeed = NormalDrainSpeed;
         oxygen = maxOxygen;
+        guyColor = colorchange.GetComponent<SpriteRenderer>();
     }
 
 
@@ -139,22 +142,22 @@ public class PlayerMovement : MonoBehaviour
 
         if (chargeLevel == 0)
         {
-            guyColor = colorchange.GetComponent<SpriteRenderer>();
+            
             guyColor.color = Color.white;
         }
         else if (chargeLevel==1)
         {
-            guyColor = colorchange.GetComponent<SpriteRenderer>();
+            
             guyColor.color = Color.yellow;
         }
         else if (chargeLevel == 2)
         {
-            guyColor = colorchange.GetComponent<SpriteRenderer>();
+            
             guyColor.color = Color.orange;
         }
         if (chargeLevel == 3)
         {
-            guyColor = colorchange.GetComponent<SpriteRenderer>();
+            
             guyColor.color = Color.red;
         }
     }
@@ -363,12 +366,17 @@ public class PlayerMovement : MonoBehaviour
             {
                 gameObject.tag = "Robot";
                 drainSpeed = MaskOffDrainSpeed;
+                CurrentSprite = SpriteList[0];
+
             }
             else if (currentTag == "Robot")
             {
                 gameObject.tag = "Player";
                 drainSpeed = NormalDrainSpeed;
+                CurrentSprite = SpriteList[1];
             }
+
+            guyColor.sprite = CurrentSprite;
         }
     }
 
