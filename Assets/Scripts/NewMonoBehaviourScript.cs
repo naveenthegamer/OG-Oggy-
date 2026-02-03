@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class PlayButton : MonoBehaviour
 {
     // Name of the scene you want to load
-    public string sceneName = "SampleScene";
+    //public string sceneName = "SampleScene";
 
     void Update()
     {
@@ -18,6 +18,6 @@ public class PlayButton : MonoBehaviour
     // This function will be called when Play Button is clicked
     public void LoadGame()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
     }
 }

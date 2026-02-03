@@ -131,15 +131,15 @@ MonoBehaviour:
   deceleration: 90
   boostTime: 1.75
   jumpForce: 10
-  chargeForceIncrement: 4
-  chargeInterval: 0.5
+  chargeForceIncrement: 6
+  chargeInterval: 0.25
   maxChargeLevel: 3
   chargeLevel: 0
   baseGravity: 3.5
   maxFallSpeed: 13
   fallSpeedMultiplier: 1.5
   boxSize: {x: 0.67, y: 0.05}
-  groundCheckSize: 0.275
+  groundCheckSize: 0.51
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -151,7 +151,7 @@ MonoBehaviour:
   MaskOffDrainSpeed: 0.8
   drainSpeed: 0
   OxygenMeter: {fileID: 0}
-  collectibleOxygen: 2
+  collectibleOxygen: 3
 --- !u!114 &4042064320956808150
 MonoBehaviour:
   m_ObjectHideFlags: 0

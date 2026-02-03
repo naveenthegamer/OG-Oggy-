@@ -422,7 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80a09e569f34c2c40987ee69d5a02a66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayButton
-  sceneName: SampleScene
+  sceneName: Level Design
 --- !u!1 &1282773285
 GameObject:
   m_ObjectHideFlags: 0
