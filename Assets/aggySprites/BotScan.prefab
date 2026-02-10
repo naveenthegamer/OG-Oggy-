@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -44.51, y: -0.78, z: 0}
-  m_LocalScale: {x: 8.503392, y: 5.2392, z: 1}
+  m_LocalScale: {x: 6.6825976, y: 2.4356763, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -153,5 +153,5 @@ MonoBehaviour:
   detectionTime: 1
   player: {fileID: 0}
   spriteRenderer: {fileID: 6553208153526692590}
-  startColor: {r: 0.9647059, g: 0.78538597, b: 0.36078438, a: 0.16078432}
+  startColor: {r: 0.9647059, g: 0.7832578, b: 0.50164706, a: 0.16078432}
   caughtColor: {r: 1, g: 0, b: 0.02227974, a: 0.16078432}

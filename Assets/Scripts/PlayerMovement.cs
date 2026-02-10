@@ -5,17 +5,19 @@ using UnityEngine.UI;
 using UnityEngine.Windows;
 
 public class PlayerMovement : MonoBehaviour
-{
+{   
     private Vector2 moveInput;
     private float HorizontalMovement;
+    private Transform CurrentRespawnPoint;
 
     public GameObject colorchange;
     SpriteRenderer guyColor;
-    [SerializeField] Sprite[] SpriteList;
-    private Sprite CurrentSprite;
+    public Sprite[] SpriteList;
+    public Sprite CurrentSprite;
+    public string currentTag;
 
     [Header("Movement")]
-    [SerializeField] Rigidbody2D rb;
+    [SerializeField] public Rigidbody2D rb;
     private bool canMove;
     //[SerializeField] float speed;
     [SerializeField] float test;
@@ -29,20 +31,20 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float deceleration; //30;
 
     [Header("Boost Settings")]
-    [SerializeField] float boostTime;// = 2f; // time in seconds to trigger boost
-    private float timeInSameDirection = 0f;
-    private int lastDirection = 0; // -1 = left, 1 = right, 0 = none
+    //[SerializeField] float boostTime;// = 2f; 
+    //private float timeInSameDirection = 0f;
+    //private int lastDirection = 0; // 
     private float currentMaxSpeed;
     private float currentSpeedX=0;
     private float accelRate;
-    int dir;
+    //int dir;
     float targetSpeedX;
 
     [Header("Jump Settings")]
     [SerializeField] float jumpForce;// 10f;
-    [SerializeField] float chargeForceIncrement;//5f; // extra force per charge level\
+    [SerializeField] float chargeForceIncrement;//5f; 
     [SerializeField] float chargeInterval;// = 2f;
-    [SerializeField] int maxChargeLevel;// = 3;        // max time to reach full charge
+    [SerializeField] int maxChargeLevel;// = 3;        
     public int chargeLevel = 0;
     Vector2 jumpDir;
 
@@ -77,6 +79,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Slider OxygenMeter;
     public float collectibleOxygen;
 
+    [Header("Health")]
+    [SerializeField] Health health;
+
+
 
 
 
@@ -87,6 +93,7 @@ public class PlayerMovement : MonoBehaviour
         drainSpeed = NormalDrainSpeed;
         oxygen = maxOxygen;
         guyColor = colorchange.GetComponent<SpriteRenderer>();
+        CurrentSprite=SpriteList[1];
     }
 
 
@@ -104,7 +111,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()  
     {
-      PhysicsMove(HorizontalMovement);
+        if (canMove)
+        {
+            PhysicsMove(HorizontalMovement);
+        }
+        guyColor.sprite = CurrentSprite;
     }
 
     void LateUpdate()
@@ -113,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
         {
             chargeTimer += Time.deltaTime;
 
-            // Update charge level based on whole intervals
+            
             newLevel = Mathf.FloorToInt(chargeTimer / chargeInterval);
             chargeLevel = Mathf.Clamp(newLevel, 0, maxChargeLevel);
         }
@@ -127,12 +138,14 @@ public class PlayerMovement : MonoBehaviour
         {
             currentSpeedX = 0;
             canMove = false;
-            
+            targetSpeedX = 0f;
+
 
         }
         if (!isCharging)
         {
             chargeLevel = 0;
+
         }
         if (chargeLevel == 0)
         {
@@ -140,19 +153,28 @@ public class PlayerMovement : MonoBehaviour
             //canChargeJump = false;
         }
 
+        if (!canMove&&grounded)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+        }
+        else
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
+
         if (chargeLevel == 0)
         {
-            
+
             guyColor.color = Color.white;
         }
-        else if (chargeLevel==1)
+        else if (chargeLevel == 1)
         {
-            
+
             guyColor.color = Color.yellow;
         }
         else if (chargeLevel == 2)
         {
-            
+
             guyColor.color = Color.orange;
         }
         if (chargeLevel == 3)
@@ -160,38 +182,44 @@ public class PlayerMovement : MonoBehaviour
             
             guyColor.color = Color.red;
         }
+
+        if(health.isRunning)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+
+        }
+        else
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
     }
 
     public void PhysicsMove(float horDire)
     {
-        // Track direction (-1, 0, 1)
-        //dir = horDire > 0 ? 1 : horDire < 0 ? -1 : 0;
-        dir = (int)Mathf.Sign(horDire);
 
+        //dir = (int)Mathf.Sign(horDire);
+        //if (dir != 0 && grounded)
+        //{
+        //    if (dir == lastDirection)
+        //    {
+        //        timeInSameDirection += Time.fixedDeltaTime;
+        //        if (timeInSameDirection >= boostTime)
+        //            currentMaxSpeed = boostedMaxSpeed;
+        //    }
+        //    else
+        //    {               
+        //        timeInSameDirection = 0f;
+        //        currentMaxSpeed = baseMaxSpeed;
+        //    }
+        //}
+        //else
+        //{           
+        //    timeInSameDirection = 0f;
+        //    currentMaxSpeed = baseMaxSpeed;
+        //}
 
-        if (dir != 0 && grounded)
-        {
-            if (dir == lastDirection)
-            {
-                timeInSameDirection += Time.fixedDeltaTime;
-                if (timeInSameDirection >= boostTime)
-                    currentMaxSpeed = boostedMaxSpeed;
-            }
-            else
-            {
-                // Direction changed → reset
-                timeInSameDirection = 0f;
-                currentMaxSpeed = baseMaxSpeed;
-            }
-        }
-        else
-        {
-            // No input → reset
-            timeInSameDirection = 0f;
-            currentMaxSpeed = baseMaxSpeed;
-        }
-
-        lastDirection = dir;
+        //lastDirection = dir;
 
         moveSpeed = grounded ? currentMaxSpeed : currentMaxSpeed * airControlMultiplier;
 
@@ -201,10 +229,9 @@ public class PlayerMovement : MonoBehaviour
         // Accel/decel
         accelRate = (Mathf.Abs(targetSpeedX) > 0.01f) ? acceleration : deceleration;
         currentSpeedX = Mathf.MoveTowards(currentSpeedX, targetSpeedX, accelRate * Time.fixedDeltaTime);
-        if (canMove)
-        {
+        
             rb.linearVelocityX = currentSpeedX;
-        }
+        
     }
 
     public void Gravity()
@@ -237,20 +264,20 @@ public class PlayerMovement : MonoBehaviour
 
     public void ChargeJump()
     {
-        if (chargeLevel == 0 && grounded)
-        {
-            // Normal jump
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            //Debug.Log("Normal jump performed");
-        }
-        else if (chargeLevel > 0 &&
+        //if (chargeLevel == 0 && grounded)
+        //{
+        //    // Normal jump
+        //    rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        //    //Debug.Log("Normal jump performed");
+        //}
+        if (chargeLevel > 0 &&
                  (Vector2.Dot(moveInput.normalized, Vector2.right) > 0.9f ||
                   Vector2.Dot(moveInput.normalized, Vector2.left) > 0.9f))
         {
             // Horizontal charged jump (left or right)
             totalForce = jumpForce + (chargeLevel * chargeForceIncrement);
 
-            // Pick direction
+            
             Vector2 jumpDir = Vector2.zero;
             if (Vector2.Dot(lhs: moveInput.normalized, Vector2.right) > 0.9f)
             {
@@ -300,7 +327,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (lost)
         {
-            Debug.Log("Game Over: Player Loses");
+            health.takeDamage(1);
+            //CurrentSprite = SpriteList[2];
+            
         }
 
     }
@@ -313,21 +342,22 @@ public class PlayerMovement : MonoBehaviour
         Vector3 castOrigin = transform.position;
         Vector3 castDirection = -transform.up * groundCheckSize;
 
-        // Draw the box at the cast origin
+        
         Gizmos.DrawWireCube(castOrigin + castDirection, boxSize);
 
     }
-
-
-
 
     //-----------------------------------------------------------------------------------------------------------------------------
 
     public void Jump(InputAction.CallbackContext context)
     {
+        //if(context.performed && grounded)
+        //{
+        //    rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        //}
         if (context.started)
         {
-            // Start charging
+            
             isCharging = true;
             chargeTimer = 0f;
             chargeLevel = 0;
@@ -336,7 +366,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (context.canceled)
         {
-            // Release jump
+           
             isCharging = false;
 
             ChargeJump();
@@ -358,10 +388,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.started)
         {
-            // Get the current tag
-            string currentTag = gameObject.tag;
+            currentTag = gameObject.tag;
 
-            // Toggle between "Player" and "Robot"
             if (currentTag == "Player")
             {
                 gameObject.tag = "Robot";
@@ -376,7 +404,7 @@ public class PlayerMovement : MonoBehaviour
                 CurrentSprite = SpriteList[1];
             }
 
-            guyColor.sprite = CurrentSprite;
+           
         }
     }
 
@@ -389,14 +417,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-   
-
-    
-
-
     //coyote time
     //jump input buffering
-   
-  
 
 }

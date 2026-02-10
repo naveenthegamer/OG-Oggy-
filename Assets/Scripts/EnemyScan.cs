@@ -14,11 +14,11 @@ public class EnemyScan : MonoBehaviour
     [SerializeField] Color caughtColor;// = Color.red;
 
 
-    void Update()
+    void LateUpdate()
     {
         if (playerDetected)
         {
-            // Increase timer while player is inside
+            
             timer += Time.deltaTime;
 
             if (timer >= detectionTime)
