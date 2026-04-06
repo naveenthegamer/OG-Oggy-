@@ -8,7 +8,7 @@ public class Health : MonoBehaviour
     public int CurrentHealth;
     public int MaxHealth;
     public PlayerMovement player;
-    public event Action<int, int> OnHealthChanged;
+    public event Action<int> OnHealthChanged;
     public Transform respawnpoint;
     public bool isRunning;
 
@@ -20,7 +20,7 @@ public class Health : MonoBehaviour
     {
         if (isRunning) return;
         CurrentHealth = Mathf.Max(CurrentHealth-Damage, 0);
-        OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
+        OnHealthChanged?.Invoke(CurrentHealth);
         if (CurrentHealth <= 0) die();
         else 
         {
